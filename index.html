@@ -67,6 +67,24 @@ async function __main__() {
     "7";
     shells = ρσ_list_decorate([ (function(){
         var ρσ_d = ρσ_dict();
+        ρσ_d.set("radius", 1.5);
+        ρσ_d.set("count", 2);
+        ρσ_d.set("tilt_axis", vector(1, 1, 0));
+        return ρσ_d;
+    }).call(this), (function(){
+        var ρσ_d = ρσ_dict();
+        ρσ_d.set("radius", 2.5);
+        ρσ_d.set("count", 8);
+        ρσ_d.set("tilt_axis", vector(0, 1, 1));
+        return ρσ_d;
+    }).call(this), (function(){
+        var ρσ_d = ρσ_dict();
+        ρσ_d.set("radius", 3.5);
+        ρσ_d.set("count", 18);
+        ρσ_d.set("tilt_axis", vector(1, 0, 1));
+        return ρσ_d;
+    }).call(this), (function(){
+        var ρσ_d = ρσ_dict();
         ρσ_d.set("radius", 4.5);
         ρσ_d.set("count", 32);
         ρσ_d.set("tilt_axis", vector(1, 1["-u"]()["*"](1), 0));
