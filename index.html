@@ -11,7 +11,6 @@
 // START JAVASCRIPT
 ;(function() {;
 var ρσ_modules = {};
-var omega_n, Omega_p, gamma, time_scale;
 ρσ_modules.pythonize = {};
 
 (function(){
@@ -64,7 +63,7 @@ async function __main__() {
 
     strings();
     "4";
-    nucleus = ρσ_interpolate_kwargs.call(this, sphere, [ρσ_desugar_kwargs({pos: vector(0, 0, 0), radius: .7, color: color.red, emissive: true})]);
+    nucleus = ρσ_interpolate_kwargs.call(this, sphere, [ρσ_desugar_kwargs({pos: vector(0, 0, 0), radius: .2, color: color.cyan, emissive: true})]);
     "7";
     shells = ρσ_list_decorate([ (function(){
         var ρσ_d = ρσ_dict();
@@ -101,17 +100,18 @@ async function __main__() {
     gamma = 0;
     "19";
     time_scale = 1;
-    "22";
+    "21";
     electrons = ρσ_list_decorate([]);
-    "23";
+    "22";
     rings = ρσ_list_decorate([]);
-    "25";
+    "24";
     async function plane_basis(n) {
         var ρσ_ls, a, u, v;
-        "26";
+        "25";
         a = vector(1, 0, 0);
-        "27";
+        "26";
         if (mag(cross(n, a))["<"](1e-6)) {
+            "27";
             a = vector(0, 0, 1);
         }
         "28";
@@ -126,14 +126,14 @@ async function __main__() {
         __module__ : {value: null}
     });
 
-    "32";
+    "33";
     var ρσ_Iter1 = shells;
     ρσ_Iter1 = ((typeof ρσ_Iter1[Symbol.iterator] === "function") ? (ρσ_Iter1 instanceof Map ? ρσ_Iter1.keys() : ρσ_Iter1) : Object.keys(ρσ_Iter1));
     for (var ρσ_Index1 of ρσ_Iter1) {
         sh = ρσ_Index1;
-        "33";
+        "34";
         ring_obj = ρσ_interpolate_kwargs.call(this, ring, [ρσ_desugar_kwargs({pos: vector(0, 0, 0), axis: vector(0, 1, 0), radius: ρσ_getitem(sh, "radius"), thickness: .03, color: color.yellow, opacity: .4})]);
-        "35";
+        "36";
         rings.append((function(){
             var ρσ_d = ρσ_dict();
             ρσ_d.set("ring", ring_obj);
@@ -141,16 +141,16 @@ async function __main__() {
             ρσ_d.set("phase", ρσ_getitem(sh, "phase"));
             return ρσ_d;
         }).call(this));
-        "36";
+        "37";
         var ρσ_Iter2 = range(ρσ_getitem(sh, "count"));
         ρσ_Iter2 = ((typeof ρσ_Iter2[Symbol.iterator] === "function") ? (ρσ_Iter2 instanceof Map ? ρσ_Iter2.keys() : ρσ_Iter2) : Object.keys(ρσ_Iter2));
         for (var ρσ_Index2 of ρσ_Iter2) {
             i = ρσ_Index2;
-            "37";
-            ang = 2["*"](pi)["*"](i)["/"](ρσ_getitem(sh, "count"));
             "38";
-            e = ρσ_interpolate_kwargs.call(this, sphere, [ρσ_desugar_kwargs({pos: vector(ρσ_getitem(sh, "radius"), 0, 0), radius: .2, color: color.cyan})]);
+            ang = 2["*"](pi)["*"](i)["/"](ρσ_getitem(sh, "count"));
             "39";
+            e = ρσ_interpolate_kwargs.call(this, sphere, [ρσ_desugar_kwargs({pos: vector(ρσ_getitem(sh, "radius"), 0, 0), radius: .2, color: color.cyan})]);
+            "40";
             electrons.append((function(){
                 var ρσ_d = ρσ_dict();
                 ρσ_d.set("sphere", e);
@@ -162,139 +162,139 @@ async function __main__() {
             }).call(this));
         }
     }
-    "48";
+    "49";
     scene.append_to_caption("\n\nControls:\n");
-    "50";
-    async function update_sliders(s) {
-        "51";
+    "51";
+    async function on_change(s) {
         "52";
-        omega_n = s_omega_n.value;
+        l_omega.text = "ωₙ = "["+"](ρσ_str.format("{:.2f}", s_omega_n.value))["+"]("");
         "53";
-        Omega_p = s_Omega_p.value;
+        l_Omega.text = "Ωₚ = "["+"](ρσ_str.format("{:.2f}", s_Omega_p.value))["+"]("");
         "54";
-        gamma = s_gamma.value;
+        l_gamma.text = "γ = "["+"](ρσ_str.format("{:.5f}", s_gamma.value))["+"]("");
         "55";
-        time_scale = s_speed.value;
-        "56";
-        l_omega.text = "ωₙ = "["+"](ρσ_str.format("{:.2f}", omega_n))["+"]("");
-        "57";
-        l_Omega.text = "Ωₚ = "["+"](ρσ_str.format("{:.2f}", Omega_p))["+"]("");
-        "58";
-        l_gamma.text = "γ = "["+"](ρσ_str.format("{:.3f}", gamma))["+"]("");
-        "59";
-        l_speed.text = "Speed = "["+"](ρσ_str.format("{:.2f}", time_scale))["+"]("x");
+        l_speed.text = "Speed = "["+"](ρσ_str.format("{:.2f}", s_speed.value))["+"]("x");
     };
-    if (!update_sliders.__argnames__) Object.defineProperties(update_sliders, {
+    if (!on_change.__argnames__) Object.defineProperties(on_change, {
         __argnames__ : {value: ["s"]},
         __module__ : {value: null}
     });
 
+    "57";
+    scene.append_to_caption("orbital tilt Nutation freq ω:\n");
+    "58";
+    s_omega_n = ρσ_interpolate_kwargs.call(this, slider, [ρσ_desugar_kwargs({min: .1, max: 1.5, value: omega_n, length: 300, step: .01, bind: on_change})]);
+    "59";
+    scene.append_to_caption("\n");
     "61";
-    scene.append_to_caption("Nutation freq ωₙ:\n");
+    scene.append_to_caption("orbital sweep Precession rate Ωₚ:\n");
     "62";
-    s_omega_n = ρσ_interpolate_kwargs.call(this, slider, [ρσ_desugar_kwargs({min: .1, max: 1.5, value: omega_n, length: 300, step: .01, bind: update_sliders})]);
+    s_Omega_p = ρσ_interpolate_kwargs.call(this, slider, [ρσ_desugar_kwargs({min: 0, max: .5, value: Omega_p, length: 300, step: .01, bind: on_change})]);
     "63";
     scene.append_to_caption("\n");
     "65";
-    scene.append_to_caption("Precession rate Ωₚ:\n");
+    scene.append_to_caption("tilt angle Damping γ:\n");
     "66";
-    s_Omega_p = ρσ_interpolate_kwargs.call(this, slider, [ρσ_desugar_kwargs({min: 0, max: .5, value: Omega_p, length: 300, step: .01, bind: update_sliders})]);
+    s_gamma = ρσ_interpolate_kwargs.call(this, slider, [ρσ_desugar_kwargs({min: 0, max: 2e-4, value: gamma, length: 300, step: 1e-5, bind: on_change})]);
     "67";
     scene.append_to_caption("\n");
     "69";
-    scene.append_to_caption("Damping γ:\n");
+    scene.append_to_caption("Overall Speed:\n");
     "70";
-    s_gamma = ρσ_interpolate_kwargs.call(this, slider, [ρσ_desugar_kwargs({min: 1["-u"]()["*"](.05), max: .05, value: gamma, length: 300, step: .001, bind: update_sliders})]);
+    s_speed = ρσ_interpolate_kwargs.call(this, slider, [ρσ_desugar_kwargs({min: .1, max: 20, value: time_scale, length: 300, step: .1, bind: on_change})]);
     "71";
     scene.append_to_caption("\n");
     "73";
-    scene.append_to_caption("Overall Speed:\n");
+    l_omega = ρσ_interpolate_kwargs.call(this, wtext, [ρσ_desugar_kwargs({text: "ωₙ = "["+"](ρσ_str.format("{:.2f}", s_omega_n.value))["+"]("")})]);
     "74";
-    s_speed = ρσ_interpolate_kwargs.call(this, slider, [ρσ_desugar_kwargs({min: .1, max: 20, value: time_scale, length: 300, step: .1, bind: update_sliders})]);
+    scene.append_to_caption("   ");
     "75";
-    scene.append_to_caption("\n");
+    l_Omega = ρσ_interpolate_kwargs.call(this, wtext, [ρσ_desugar_kwargs({text: "Ωₚ = "["+"](ρσ_str.format("{:.2f}", s_Omega_p.value))["+"]("")})]);
+    "76";
+    scene.append_to_caption("   ");
     "77";
-    l_omega = ρσ_interpolate_kwargs.call(this, wtext, [ρσ_desugar_kwargs({text: "ωₙ = "["+"](ρσ_str.format("{:.2f}", omega_n))["+"]("")})]);
+    l_gamma = ρσ_interpolate_kwargs.call(this, wtext, [ρσ_desugar_kwargs({text: "γ = "["+"](ρσ_str.format("{:.5f}", s_gamma.value))["+"]("")})]);
     "78";
     scene.append_to_caption("   ");
     "79";
-    l_Omega = ρσ_interpolate_kwargs.call(this, wtext, [ρσ_desugar_kwargs({text: "Ωₚ = "["+"](ρσ_str.format("{:.2f}", Omega_p))["+"]("")})]);
-    "80";
-    scene.append_to_caption("   ");
-    "81";
-    l_gamma = ρσ_interpolate_kwargs.call(this, wtext, [ρσ_desugar_kwargs({text: "γ = "["+"](ρσ_str.format("{:.3f}", gamma))["+"]("")})]);
+    l_speed = ρσ_interpolate_kwargs.call(this, wtext, [ρσ_desugar_kwargs({text: "Speed = "["+"](ρσ_str.format("{:.2f}", s_speed.value))["+"]("x")})]);
     "82";
-    scene.append_to_caption("   ");
-    "83";
-    l_speed = ρσ_interpolate_kwargs.call(this, wtext, [ρσ_desugar_kwargs({text: "Speed = "["+"](ρσ_str.format("{:.2f}", time_scale))["+"]("x")})]);
-    "86";
     t = 0;
-    "87";
+    "83";
     while (true) {
-        "88";
+        "84";
         (await rate(60));
-        "89";
+        "85";
+        omega_n = s_omega_n.value;
+        "86";
+        Omega_p = s_Omega_p.value;
+        "87";
+        gamma = s_gamma.value;
+        "88";
+        time_scale = s_speed.value;
+        "90";
         t=t["+"](.02["*"](time_scale));
-        "91";
+        "93";
         var ρσ_Iter3 = rings;
         ρσ_Iter3 = ((typeof ρσ_Iter3[Symbol.iterator] === "function") ? (ρσ_Iter3 instanceof Map ? ρσ_Iter3.keys() : ρσ_Iter3) : Object.keys(ρσ_Iter3));
         for (var ρσ_Index3 of ρσ_Iter3) {
             rg = ρσ_Index3;
-            "92";
-            phi0 = ρσ_getitem(rg, "phase")["*"](2)["*"](pi);
-            "93";
-            theta = theta0["*"](exp(gamma["*"](t)))["*"](sin(omega_n["*"](t)["+"](phi0)));
             "94";
-            phi = Omega_p["*"](t)["+"](phi0);
+            phi0 = ρσ_getitem(rg, "phase")["*"](2)["*"](pi);
+            "95";
+            theta = theta0["*"](exp(gamma["*"](t)))["*"](sin(omega_n["*"](t)["+"](phi0)));
             "96";
+            phi = Omega_p["*"](t)["+"](phi0);
+            "98";
             n = vector(sin(theta)["*"](cos(phi)), cos(theta), sin(theta)["*"](sin(phi)));
-            "97";
-            n = norm(n);
             "99";
-            r_breathe = .1["*"](sin(2["*"](t)["+"](ρσ_getitem(rg, "phase")["*"](7))));
-            "100";
-            ρσ_getitem(rg, "ring").axis = n;
+            n = norm(n);
             "101";
-            ρσ_getitem(rg, "ring").radius = ρσ_getitem(rg, "r")["+"](r_breathe);
+            r_breathe = .1["*"](sin(2["*"](t)["+"](ρσ_getitem(rg, "phase")["*"](7))));
+            "102";
+            ρσ_getitem(rg, "ring").axis = n;
             "103";
+            ρσ_getitem(rg, "ring").radius = ρσ_getitem(rg, "r")["+"](r_breathe);
+            "105";
             ρσ_unpack = (await plane_basis(n));
 ρσ_unpack = ρσ_unpack_asarray(2, ρσ_unpack);
             u = ρσ_unpack[0];
             v = ρσ_unpack[1];
-            "104";
-            ρσ_setitem(rg, "basis_u", u);
-            "105";
-            ρσ_setitem(rg, "basis_v", v);
             "106";
+            ρσ_setitem(rg, "basis_u", u);
+            "107";
+            ρσ_setitem(rg, "basis_v", v);
+            "108";
             ρσ_setitem(rg, "radius_now", ρσ_getitem(rg, "ring").radius);
         }
-        "108";
+        "111";
         var ρσ_Iter4 = electrons;
         ρσ_Iter4 = ((typeof ρσ_Iter4[Symbol.iterator] === "function") ? (ρσ_Iter4 instanceof Map ? ρσ_Iter4.keys() : ρσ_Iter4) : Object.keys(ρσ_Iter4));
         for (var ρσ_Index4 of ρσ_Iter4) {
             e = ρσ_Index4;
-            "109";
+            "112";
             ρσ_setitem(e, "alpha", ρσ_getitem(e, "alpha")["+"](ρσ_getitem(e, "alpha_speed")["*"](time_scale)));
-            "110";
+            "113";
             best = ρσ_getitem(rings, 0);
-            "111";
+            "114";
             var ρσ_Iter5 = rings.slice(1);
             ρσ_Iter5 = ((typeof ρσ_Iter5[Symbol.iterator] === "function") ? (ρσ_Iter5 instanceof Map ? ρσ_Iter5.keys() : ρσ_Iter5) : Object.keys(ρσ_Iter5));
             for (var ρσ_Index5 of ρσ_Iter5) {
                 rg = ρσ_Index5;
-                "112";
+                "115";
                 if (abs(ρσ_getitem(rg, "r")["-"](1["*"](ρσ_getitem(e, "r"))))["<"](abs(ρσ_getitem(best, "r")["-"](1["*"](ρσ_getitem(e, "r")))))) {
+                    "116";
                     best = rg;
                 }
             }
-            "113";
+            "117";
             u = ρσ_getitem(best, "basis_u");
             v = ρσ_getitem(best, "basis_v");
-            "114";
+            "118";
             rnow = ρσ_getitem(best, "radius_now");
-            "115";
+            "119";
             pos = rnow["*"](cos(ρσ_getitem(e, "alpha"))["*"](u)["+"](sin(ρσ_getitem(e, "alpha"))["*"](v)));
-            "116";
+            "120";
             ρσ_getitem(e, "sphere").pos = pos;
         }
     }
