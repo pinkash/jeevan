@@ -11,6 +11,7 @@
 // START JAVASCRIPT
 ;(function() {;
 var ρσ_modules = {};
+var omega_n, Omega_p, gamma, time_scale;
 ρσ_modules.pythonize = {};
 
 (function(){
@@ -50,7 +51,7 @@ async function __main__() {
     var display = canvas;
     var scene = canvas();
 
-    var version, print, arange, __name__, type, ρσ_ls, nucleus, shells, electrons, angle, pos, e, i, shell, dynamic_axis;
+    var version, print, arange, __name__, type, ρσ_ls, nucleus, shells, theta0, omega_n, Omega_p, gamma, time_scale, electrons, rings, ring_obj, ang, e, i, sh, s_omega_n, s_Omega_p, s_gamma, s_speed, l_omega, l_Omega, l_gamma, l_speed, t, phi0, theta, phi, n, r_breathe, ρσ_unpack, u, v, rg, best, rnow, pos;
     version = ρσ_list_decorate([ "3.2", "glowscript" ]);
     Array.prototype['+'] = function(r) {return this.concat(r)}
     Array.prototype['*'] = function(r) {return __array_times_number(this, r)}
@@ -63,86 +64,237 @@ async function __main__() {
 
     strings();
     "4";
-    nucleus = ρσ_interpolate_kwargs.call(this, sphere, [ρσ_desugar_kwargs({pos: vector(0, 0, 0), radius: .3, color: color.white})]);
+    nucleus = ρσ_interpolate_kwargs.call(this, sphere, [ρσ_desugar_kwargs({pos: vector(0, 0, 0), radius: .7, color: color.red, emissive: true})]);
     "7";
     shells = ρσ_list_decorate([ (function(){
         var ρσ_d = ρσ_dict();
         ρσ_d.set("radius", 1.5);
         ρσ_d.set("count", 2);
-        ρσ_d.set("tilt_axis", vector(1, 1, 0));
+        ρσ_d.set("phase", .1);
         return ρσ_d;
     }).call(this), (function(){
         var ρσ_d = ρσ_dict();
         ρσ_d.set("radius", 2.5);
         ρσ_d.set("count", 8);
-        ρσ_d.set("tilt_axis", vector(0, 1, 1));
+        ρσ_d.set("phase", .35);
         return ρσ_d;
     }).call(this), (function(){
         var ρσ_d = ρσ_dict();
         ρσ_d.set("radius", 3.5);
         ρσ_d.set("count", 18);
-        ρσ_d.set("tilt_axis", vector(1, 0, 1));
+        ρσ_d.set("phase", .6);
         return ρσ_d;
     }).call(this), (function(){
         var ρσ_d = ρσ_dict();
         ρσ_d.set("radius", 4.5);
         ρσ_d.set("count", 32);
-        ρσ_d.set("tilt_axis", vector(1, 1["-u"]()["*"](1), 0));
+        ρσ_d.set("phase", .85);
         return ρσ_d;
     }).call(this) ]);
-    "14";
-    electrons = ρσ_list_decorate([]);
+    "15";
+    theta0 = .3;
+    "16";
+    omega_n = .4;
     "17";
+    Omega_p = .15;
+    "18";
+    gamma = 0;
+    "19";
+    time_scale = 1;
+    "22";
+    electrons = ρσ_list_decorate([]);
+    "23";
+    rings = ρσ_list_decorate([]);
+    "25";
+    async function plane_basis(n) {
+        var ρσ_ls, a, u, v;
+        "26";
+        a = vector(1, 0, 0);
+        "27";
+        if (mag(cross(n, a))["<"](1e-6)) {
+            a = vector(0, 0, 1);
+        }
+        "28";
+        u = norm(cross(n, a));
+        "29";
+        v = cross(n, u);
+        "30";
+        return [u, v];
+    };
+    if (!plane_basis.__argnames__) Object.defineProperties(plane_basis, {
+        __argnames__ : {value: ["n"]},
+        __module__ : {value: null}
+    });
+
+    "32";
     var ρσ_Iter1 = shells;
     ρσ_Iter1 = ((typeof ρσ_Iter1[Symbol.iterator] === "function") ? (ρσ_Iter1 instanceof Map ? ρσ_Iter1.keys() : ρσ_Iter1) : Object.keys(ρσ_Iter1));
     for (var ρσ_Index1 of ρσ_Iter1) {
-        shell = ρσ_Index1;
-        "18";
-        var ρσ_Iter2 = range(ρσ_getitem(shell, "count"));
+        sh = ρσ_Index1;
+        "33";
+        ring_obj = ρσ_interpolate_kwargs.call(this, ring, [ρσ_desugar_kwargs({pos: vector(0, 0, 0), axis: vector(0, 1, 0), radius: ρσ_getitem(sh, "radius"), thickness: .03, color: color.yellow, opacity: .4})]);
+        "35";
+        rings.append((function(){
+            var ρσ_d = ρσ_dict();
+            ρσ_d.set("ring", ring_obj);
+            ρσ_d.set("r", ρσ_getitem(sh, "radius"));
+            ρσ_d.set("phase", ρσ_getitem(sh, "phase"));
+            return ρσ_d;
+        }).call(this));
+        "36";
+        var ρσ_Iter2 = range(ρσ_getitem(sh, "count"));
         ρσ_Iter2 = ((typeof ρσ_Iter2[Symbol.iterator] === "function") ? (ρσ_Iter2 instanceof Map ? ρσ_Iter2.keys() : ρσ_Iter2) : Object.keys(ρσ_Iter2));
         for (var ρσ_Index2 of ρσ_Iter2) {
             i = ρσ_Index2;
-            "19";
-            angle = 2["*"](pi)["*"](i)["/"](ρσ_getitem(shell, "count"));
-            "20";
-            pos = vector(ρσ_getitem(shell, "radius")["*"](cos(angle)), 0, ρσ_getitem(shell, "radius")["*"](sin(angle)));
-            "21";
-            pos = ρσ_interpolate_kwargs.call(this, rotate, [pos].concat([ρσ_desugar_kwargs({angle: pi["/"](4), axis: ρσ_getitem(shell, "tilt_axis")})]));
-            "22";
-            e = ρσ_interpolate_kwargs.call(this, sphere, [ρσ_desugar_kwargs({pos: pos, radius: .2, color: color.white, make_trail: false})]);
-            "23";
+            "37";
+            ang = 2["*"](pi)["*"](i)["/"](ρσ_getitem(sh, "count"));
+            "38";
+            e = ρσ_interpolate_kwargs.call(this, sphere, [ρσ_desugar_kwargs({pos: vector(ρσ_getitem(sh, "radius"), 0, 0), radius: .2, color: color.cyan})]);
+            "39";
             electrons.append((function(){
                 var ρσ_d = ρσ_dict();
                 ρσ_d.set("sphere", e);
-                ρσ_d.set("r", ρσ_getitem(shell, "radius"));
-                ρσ_d.set("angle", angle);
-                ρσ_d.set("speed", .02["+"](.002["*"](ρσ_getitem(shell, "count"))));
-                ρσ_d.set("tilt_axis", ρσ_getitem(shell, "tilt_axis"));
-                ρσ_d.set("tilt_angle", 0);
+                ρσ_d.set("r", ρσ_getitem(sh, "radius"));
+                ρσ_d.set("alpha", ang);
+                ρσ_d.set("alpha_speed", .0015["+"](15e-5["*"](ρσ_getitem(sh, "count"))));
+                ρσ_d.set("phase", ρσ_getitem(sh, "phase"));
                 return ρσ_d;
             }).call(this));
         }
     }
-    "33";
+    "48";
+    scene.append_to_caption("\n\nControls:\n");
+    "50";
+    async function update_sliders(s) {
+        "51";
+        "52";
+        omega_n = s_omega_n.value;
+        "53";
+        Omega_p = s_Omega_p.value;
+        "54";
+        gamma = s_gamma.value;
+        "55";
+        time_scale = s_speed.value;
+        "56";
+        l_omega.text = "ωₙ = "["+"](ρσ_str.format("{:.2f}", omega_n))["+"]("");
+        "57";
+        l_Omega.text = "Ωₚ = "["+"](ρσ_str.format("{:.2f}", Omega_p))["+"]("");
+        "58";
+        l_gamma.text = "γ = "["+"](ρσ_str.format("{:.3f}", gamma))["+"]("");
+        "59";
+        l_speed.text = "Speed = "["+"](ρσ_str.format("{:.2f}", time_scale))["+"]("x");
+    };
+    if (!update_sliders.__argnames__) Object.defineProperties(update_sliders, {
+        __argnames__ : {value: ["s"]},
+        __module__ : {value: null}
+    });
+
+    "61";
+    scene.append_to_caption("Nutation freq ωₙ:\n");
+    "62";
+    s_omega_n = ρσ_interpolate_kwargs.call(this, slider, [ρσ_desugar_kwargs({min: .1, max: 1.5, value: omega_n, length: 300, step: .01, bind: update_sliders})]);
+    "63";
+    scene.append_to_caption("\n");
+    "65";
+    scene.append_to_caption("Precession rate Ωₚ:\n");
+    "66";
+    s_Omega_p = ρσ_interpolate_kwargs.call(this, slider, [ρσ_desugar_kwargs({min: 0, max: .5, value: Omega_p, length: 300, step: .01, bind: update_sliders})]);
+    "67";
+    scene.append_to_caption("\n");
+    "69";
+    scene.append_to_caption("Damping γ:\n");
+    "70";
+    s_gamma = ρσ_interpolate_kwargs.call(this, slider, [ρσ_desugar_kwargs({min: 1["-u"]()["*"](.05), max: .05, value: gamma, length: 300, step: .001, bind: update_sliders})]);
+    "71";
+    scene.append_to_caption("\n");
+    "73";
+    scene.append_to_caption("Overall Speed:\n");
+    "74";
+    s_speed = ρσ_interpolate_kwargs.call(this, slider, [ρσ_desugar_kwargs({min: .1, max: 20, value: time_scale, length: 300, step: .1, bind: update_sliders})]);
+    "75";
+    scene.append_to_caption("\n");
+    "77";
+    l_omega = ρσ_interpolate_kwargs.call(this, wtext, [ρσ_desugar_kwargs({text: "ωₙ = "["+"](ρσ_str.format("{:.2f}", omega_n))["+"]("")})]);
+    "78";
+    scene.append_to_caption("   ");
+    "79";
+    l_Omega = ρσ_interpolate_kwargs.call(this, wtext, [ρσ_desugar_kwargs({text: "Ωₚ = "["+"](ρσ_str.format("{:.2f}", Omega_p))["+"]("")})]);
+    "80";
+    scene.append_to_caption("   ");
+    "81";
+    l_gamma = ρσ_interpolate_kwargs.call(this, wtext, [ρσ_desugar_kwargs({text: "γ = "["+"](ρσ_str.format("{:.3f}", gamma))["+"]("")})]);
+    "82";
+    scene.append_to_caption("   ");
+    "83";
+    l_speed = ρσ_interpolate_kwargs.call(this, wtext, [ρσ_desugar_kwargs({text: "Speed = "["+"](ρσ_str.format("{:.2f}", time_scale))["+"]("x")})]);
+    "86";
+    t = 0;
+    "87";
     while (true) {
-        "34";
+        "88";
         (await rate(60));
-        "35";
-        var ρσ_Iter3 = electrons;
+        "89";
+        t=t["+"](.02["*"](time_scale));
+        "91";
+        var ρσ_Iter3 = rings;
         ρσ_Iter3 = ((typeof ρσ_Iter3[Symbol.iterator] === "function") ? (ρσ_Iter3 instanceof Map ? ρσ_Iter3.keys() : ρσ_Iter3) : Object.keys(ρσ_Iter3));
         for (var ρσ_Index3 of ρσ_Iter3) {
-            e = ρσ_Index3;
-            "37";
-            ρσ_setitem(e, "angle", ρσ_getitem(e, "angle")["+"](ρσ_getitem(e, "speed")));
-            "40";
-            ρσ_setitem(e, "tilt_angle", ρσ_getitem(e, "tilt_angle")["+"](.004));
-            "41";
-            dynamic_axis = ρσ_interpolate_kwargs.call(this, rotate, [ρσ_getitem(e, "tilt_axis")].concat([ρσ_desugar_kwargs({angle: ρσ_getitem(e, "tilt_angle"), axis: vector(0, 1, 0)})]));
-            "44";
-            pos = vector(ρσ_getitem(e, "r")["*"](cos(ρσ_getitem(e, "angle"))), 0, ρσ_getitem(e, "r")["*"](sin(ρσ_getitem(e, "angle"))));
-            "45";
-            pos = ρσ_interpolate_kwargs.call(this, rotate, [pos].concat([ρσ_desugar_kwargs({angle: pi["/"](4), axis: dynamic_axis})]));
-            "46";
+            rg = ρσ_Index3;
+            "92";
+            phi0 = ρσ_getitem(rg, "phase")["*"](2)["*"](pi);
+            "93";
+            theta = theta0["*"](exp(gamma["*"](t)))["*"](sin(omega_n["*"](t)["+"](phi0)));
+            "94";
+            phi = Omega_p["*"](t)["+"](phi0);
+            "96";
+            n = vector(sin(theta)["*"](cos(phi)), cos(theta), sin(theta)["*"](sin(phi)));
+            "97";
+            n = norm(n);
+            "99";
+            r_breathe = .1["*"](sin(2["*"](t)["+"](ρσ_getitem(rg, "phase")["*"](7))));
+            "100";
+            ρσ_getitem(rg, "ring").axis = n;
+            "101";
+            ρσ_getitem(rg, "ring").radius = ρσ_getitem(rg, "r")["+"](r_breathe);
+            "103";
+            ρσ_unpack = (await plane_basis(n));
+ρσ_unpack = ρσ_unpack_asarray(2, ρσ_unpack);
+            u = ρσ_unpack[0];
+            v = ρσ_unpack[1];
+            "104";
+            ρσ_setitem(rg, "basis_u", u);
+            "105";
+            ρσ_setitem(rg, "basis_v", v);
+            "106";
+            ρσ_setitem(rg, "radius_now", ρσ_getitem(rg, "ring").radius);
+        }
+        "108";
+        var ρσ_Iter4 = electrons;
+        ρσ_Iter4 = ((typeof ρσ_Iter4[Symbol.iterator] === "function") ? (ρσ_Iter4 instanceof Map ? ρσ_Iter4.keys() : ρσ_Iter4) : Object.keys(ρσ_Iter4));
+        for (var ρσ_Index4 of ρσ_Iter4) {
+            e = ρσ_Index4;
+            "109";
+            ρσ_setitem(e, "alpha", ρσ_getitem(e, "alpha")["+"](ρσ_getitem(e, "alpha_speed")["*"](time_scale)));
+            "110";
+            best = ρσ_getitem(rings, 0);
+            "111";
+            var ρσ_Iter5 = rings.slice(1);
+            ρσ_Iter5 = ((typeof ρσ_Iter5[Symbol.iterator] === "function") ? (ρσ_Iter5 instanceof Map ? ρσ_Iter5.keys() : ρσ_Iter5) : Object.keys(ρσ_Iter5));
+            for (var ρσ_Index5 of ρσ_Iter5) {
+                rg = ρσ_Index5;
+                "112";
+                if (abs(ρσ_getitem(rg, "r")["-"](1["*"](ρσ_getitem(e, "r"))))["<"](abs(ρσ_getitem(best, "r")["-"](1["*"](ρσ_getitem(e, "r")))))) {
+                    best = rg;
+                }
+            }
+            "113";
+            u = ρσ_getitem(best, "basis_u");
+            v = ρσ_getitem(best, "basis_v");
+            "114";
+            rnow = ρσ_getitem(best, "radius_now");
+            "115";
+            pos = rnow["*"](cos(ρσ_getitem(e, "alpha"))["*"](u)["+"](sin(ρσ_getitem(e, "alpha"))["*"](v)));
+            "116";
             ρσ_getitem(e, "sphere").pos = pos;
         }
     }
